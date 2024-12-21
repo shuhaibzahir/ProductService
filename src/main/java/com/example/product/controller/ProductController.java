@@ -1,28 +1,45 @@
 package com.example.product.controller;
 
 import com.example.product.models.Product;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.product.service.ProductInterface;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
+@RequestMapping(path = "/products")
+
 public class ProductController {
    //this is help to create product
 
-//    @RequestMapping(value="/product", method = RequestMethod.POST)
-    @PostMapping("/products")
-    public void createProduct(Product product) {
+    private final ProductInterface productService;
 
+    public ProductController(ProductInterface productService) {
+        this.productService = productService;
+    }
+
+    @PostMapping
+    public List<Product> createProduct() {
+        return List.of();
+    }
+
+    @GetMapping
+    public List<Product> getAllProducts(){
+        return productService.getAllProducts();
     }
 
     //this will help to get product by id
-    public Product getProductById(Long id){
-        return null;
+    @GetMapping( "/{id}")
+    public Product getProductById(@PathVariable Long id){
+        return productService.getProductById(id);
     }
 
-    public void updateProduct(Product product, Long id) {}
+    @PutMapping("/{id}")
+    public void updateProduct(@PathVariable String id, @RequestBody Product product) {}
 
-    public void deleteProduct(Long id) {}
+    @DeleteMapping( "/{id}")
+    public void deleteProduct(@PathVariable String id) {
+
+    }
 
 }
