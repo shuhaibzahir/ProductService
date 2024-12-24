@@ -8,5 +8,7 @@ public interface ProductInterface {
 
     Product getProductById(Long Id);
     List<Product> getAllProducts();
-    Product createProduct(Product product);
+    Product createProduct(Long id, String name, String description, Double price, String category);
+    Product updateProduct(Long id, String name, String description, Double price, String category);
+    String deleteProduct(Long id);
 }

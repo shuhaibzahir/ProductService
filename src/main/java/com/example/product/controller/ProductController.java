@@ -4,6 +4,7 @@ import com.example.product.models.Product;
 import com.example.product.service.ProductInterface;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -19,8 +20,21 @@ public class ProductController {
     }
 
     @PostMapping
-    public List<Product> createProduct() {
-        return List.of();
+    public  Product  createProduct(@RequestBody Product product) {
+        return productService.createProduct(
+                product.getId(),
+                product.getTitle(),
+                product.getDescription(),
+                product.getPrice(),
+                product.getCategory().getName()
+        );
+
+    }
+
+    //this will help to get product by id
+    @GetMapping( "/{id}")
+    public Product getProductById(@PathVariable Long id){
+            return productService.getProductById(id);
     }
 
     @GetMapping
@@ -28,18 +42,23 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
-    //this will help to get product by id
-    @GetMapping( "/{id}")
-    public Product getProductById(@PathVariable Long id){
-        return productService.getProductById(id);
-    }
+
 
     @PutMapping("/{id}")
-    public void updateProduct(@PathVariable String id, @RequestBody Product product) {}
+    public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
+        return productService.updateProduct(
+                id,
+                product.getTitle(),
+                product.getDescription(),
+                product.getPrice(),
+                product.getCategory().getName()
+        );
+
+    }
 
     @DeleteMapping( "/{id}")
-    public void deleteProduct(@PathVariable String id) {
-
+    public String deleteProduct(@PathVariable Long id) {
+        return productService.deleteProduct(id);
     }
 
 }
