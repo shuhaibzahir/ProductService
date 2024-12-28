@@ -23,7 +23,7 @@ public class ProductDto {
     private Long id;
     private String title;
     private String description;
-    private Double price;
+    private String price;
     private String image;
     private String category;
 
@@ -51,11 +51,11 @@ public class ProductDto {
         this.description = description;
     }
 
-    public Double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 

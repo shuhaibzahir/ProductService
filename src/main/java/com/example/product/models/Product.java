@@ -8,7 +8,7 @@ public class Product {
     private Long id;
     private String title;
     private String description;
-    private Double price;
+    private String price;
     private Category category;
     private String imageUrl;
 
@@ -36,11 +36,11 @@ public class Product {
         this.description = description;
     }
 
-    public Double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
@@ -63,7 +63,7 @@ public class Product {
     public Product(){}
 
     public Product(Long id, String title, String description,
-                   Double price, Category category, String imageUrl){
+                   String price, Category category, String imageUrl){
         this.id = id;
         this.title = title;
         this.description = description;

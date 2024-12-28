@@ -1,7 +1,11 @@
 package com.example.product.service;
 
+import com.example.product.dto.ProductResponseDto;
 import com.example.product.models.Product;
 import com.example.product.dto.ProductDto;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -21,27 +25,26 @@ public class ProductService implements  ProductInterface {
     }
     @Override
     public List<Product> getAllProducts() {
-        System.out.println("getAllProducts" + fakeStoreURL);
-        ProductDto [] productDtos= restTemplate.getForObject(fakeStoreURL, ProductDto[].class);
-        System.out.println(productDtos);
-        List<Product> response = new ArrayList<>();
-        for(ProductDto productDto : productDtos){
-            response.add(productDto.getProduct());
+        ProductDto[] productDtos= restTemplate.getForObject("https://fakestoreapi.com/products", ProductDto[].class);
+        List<Product> products = new ArrayList<>();
+        for (ProductDto productDto : productDtos) {
+            products.add(productDto.getProduct());
         }
-
-        return response;
+        return products;
     }
 
     @Override
-    public Product createProduct(Long id, String name, String description, Double price, String category) {
+    public Product createProduct(Long id, String name, String description, String price, String category) {
         ProductDto productDto = new ProductDto();
         productDto.setId(id);
         productDto.setTitle(name);
         productDto.setDescription(description);
         productDto.setPrice(price);
+        productDto.setImage(fakeStoreURL);
         productDto.setCategory(category);
-        ProductDto p = restTemplate.postForObject(fakeStoreURL, productDto, ProductDto.class);
-        return p.getProduct();
+        System.out.println(productDto);
+        ProductResponseDto p = restTemplate.postForObject(fakeStoreURL, productDto, ProductResponseDto.class);
+        return p.getProduct().getProduct();
     }
 
     ;
@@ -53,7 +56,7 @@ public class ProductService implements  ProductInterface {
     };
 
     @Override
-    public Product updateProduct(Long id, String title, String description, Double price, String category) {
+    public Product updateProduct(Long id, String title, String description, String price, String category) {
 
         ProductDto productDto = new ProductDto();
         productDto.setId(id);
@@ -61,8 +64,17 @@ public class ProductService implements  ProductInterface {
         productDto.setDescription(description);
         productDto.setPrice(price);
         productDto.setCategory(category);
-        ProductDto p = restTemplate.postForObject(fakeStoreURL+"/"+id, productDto, ProductDto.class);
-        return p.getProduct();
+        productDto.setImage(fakeStoreURL);
+
+        System.out.println(productDto);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+        HttpEntity<ProductDto> requestEntity = new HttpEntity<>(productDto, headers);
+
+        ResponseEntity<ProductResponseDto> p = restTemplate.exchange(fakeStoreURL+"/"+id, HttpMethod.PUT, requestEntity, ProductResponseDto.class);
+
+        System.out.println(p);
+        return p.getBody().getProduct().getProduct();
     }
 
     @Override
