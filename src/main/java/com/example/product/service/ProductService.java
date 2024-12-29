@@ -1,6 +1,7 @@
 package com.example.product.service;
 
 import com.example.product.dto.ProductResponseDto;
+import com.example.product.execptions.ProductNotFoundException;
 import com.example.product.models.Product;
 import com.example.product.dto.ProductDto;
 import org.springframework.http.HttpEntity;
@@ -49,10 +50,15 @@ public class ProductService implements  ProductInterface {
 
     ;
     @Override
-    public  Product getProductById(Long id) {
+    public  Product getProductById(Long id) throws ProductNotFoundException {
         System.out.println(fakeStoreURL+"/"+id);
-        ProductDto d = restTemplate.getForObject(fakeStoreURL+"/"+id, ProductDto.class);
-        return d.getProduct();
+        ProductResponseDto d = restTemplate.getForObject(fakeStoreURL+"/"+id, ProductResponseDto.class);
+        ProductDto productDto = d.getProduct();
+        if(productDto == null){
+            throw new ProductNotFoundException("Product not found");
+        }
+
+        return productDto.getProduct();
     };
 
     @Override

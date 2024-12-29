@@ -1,10 +1,12 @@
 package com.example.product.controller;
 
+import com.example.product.dto.ErrorDto;
+import com.example.product.execptions.ProductNotFoundException;
 import com.example.product.models.Product;
 import com.example.product.service.ProductInterface;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -33,8 +35,12 @@ public class ProductController {
 
     //this will help to get product by id
     @GetMapping( "/{id}")
-    public Product getProductById(@PathVariable Long id){
-            return productService.getProductById(id);
+    public Product getProductById(@PathVariable Long id) throws ProductNotFoundException {
+           try{
+               return productService.getProductById(id);
+           }catch (Exception e){
+               throw new ProductNotFoundException(e.getMessage());
+           }
     }
 
     @GetMapping
@@ -60,5 +66,15 @@ public class ProductController {
     public String deleteProduct(@PathVariable Long id) {
         return productService.deleteProduct(id);
     }
+
+    @ExceptionHandler({ProductNotFoundException.class, MethodArgumentTypeMismatchException.class})
+    public ErrorDto errorException(Exception e) {
+        ErrorDto errorDto = new ErrorDto();
+        errorDto.setMessage(e.getMessage());
+        System.out.println(errorDto.getMessage());
+        return errorDto;
+    }
+
+
 
 }
