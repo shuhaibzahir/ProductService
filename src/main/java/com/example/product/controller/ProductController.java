@@ -4,6 +4,8 @@ import com.example.product.dto.ErrorDto;
 import com.example.product.execptions.ProductNotFoundException;
 import com.example.product.models.Product;
 import com.example.product.service.ProductInterface;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
@@ -35,12 +37,10 @@ public class ProductController {
 
     //this will help to get product by id
     @GetMapping( "/{id}")
-    public Product getProductById(@PathVariable Long id) throws ProductNotFoundException {
-           try{
-               return productService.getProductById(id);
-           }catch (Exception e){
-               throw new ProductNotFoundException(e.getMessage());
-           }
+    public ResponseEntity<Product> getProductById(@PathVariable Long id) throws ProductNotFoundException {
+        Product product = productService.getProductById(id);
+        ResponseEntity<Product> responseEntity = new ResponseEntity<>(product, HttpStatus.OK);
+        return responseEntity;
     }
 
     @GetMapping
@@ -68,11 +68,12 @@ public class ProductController {
     }
 
     @ExceptionHandler({ProductNotFoundException.class, MethodArgumentTypeMismatchException.class})
-    public ErrorDto errorException(Exception e) {
+    public ResponseEntity<ErrorDto> errorException(Exception e) {
         ErrorDto errorDto = new ErrorDto();
         errorDto.setMessage(e.getMessage());
         System.out.println(errorDto.getMessage());
-        return errorDto;
+        ResponseEntity<ErrorDto> responseEntity = new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+        return responseEntity;
     }
 
 
