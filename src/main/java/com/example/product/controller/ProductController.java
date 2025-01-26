@@ -4,6 +4,7 @@ import com.example.product.dto.ErrorDto;
 import com.example.product.execptions.ProductNotFoundException;
 import com.example.product.models.Product;
 import com.example.product.service.ProductInterface;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class ProductController {
 
     private final ProductInterface productService;
 
-    public ProductController(ProductInterface productService) {
+    public ProductController(@Qualifier("selfProductService") ProductInterface productService) {
         this.productService = productService;
     }
 
@@ -30,7 +31,7 @@ public class ProductController {
                 product.getTitle(),
                 product.getDescription(),
                 product.getPrice(),
-                product.getCategory().getName()
+                product.getCategory().getTitle()
         );
 
     }
@@ -57,7 +58,7 @@ public class ProductController {
                 product.getTitle(),
                 product.getDescription(),
                 product.getPrice(),
-                product.getCategory().getName()
+                product.getCategory().getTitle()
         );
 
     }

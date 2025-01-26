@@ -9,7 +9,7 @@ public interface ProductInterface {
 
     Product getProductById(Long Id) throws ProductNotFoundException;
     List<Product> getAllProducts();
-    Product createProduct(Long id, String name, String description, String price, String category);
-    Product updateProduct(Long id, String name, String description, String price, String category);
+    Product createProduct(Long id, String title, String description, String price, String category);
+    Product updateProduct(Long id, String title, String description, String price, String category);
     String deleteProduct(Long id);
 }

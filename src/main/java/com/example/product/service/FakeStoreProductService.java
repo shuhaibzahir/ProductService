@@ -14,13 +14,13 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
-public class ProductService implements  ProductInterface {
+@Service("fakeStoreProductService")
+public class FakeStoreProductService implements  ProductInterface {
 
     private RestTemplate restTemplate;
     private String fakeStoreURL;
 
-    public ProductService(RestTemplate restTemplate, String fakeStoreURL) {
+    public FakeStoreProductService(RestTemplate restTemplate, String fakeStoreURL) {
         this.restTemplate = restTemplate;
         this.fakeStoreURL = fakeStoreURL;
     }

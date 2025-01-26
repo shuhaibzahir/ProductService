@@ -2,7 +2,9 @@ package com.example.product.reposetory;
 
 import com.example.product.models.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Component;
 
+@Component
 public interface ProductReposetory extends JpaRepository<Product, Long> {
     //save
 
@@ -12,8 +14,6 @@ public interface ProductReposetory extends JpaRepository<Product, Long> {
 
     //update
     Product save(Product product);
+    Product findByTitle(String title);
 
-    //delete
-    Product findByName(String name);
-    Product findByDescription(String description);
 }

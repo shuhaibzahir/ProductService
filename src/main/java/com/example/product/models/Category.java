@@ -13,6 +13,6 @@ import lombok.*;
 
 @Entity
 public class Category extends BaseModel {
-    private String name;
+    private String title;
     private String description;
 }

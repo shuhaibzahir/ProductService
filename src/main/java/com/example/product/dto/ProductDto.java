@@ -15,11 +15,16 @@ package com.example.product.dto;
 
 import com.example.product.models.Category;
 import com.example.product.models.Product;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Date;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class ProductDto {
     private Long id;
     private String title;
@@ -27,12 +32,13 @@ public class ProductDto {
     private String price;
     private String image;
     private String category;
+    private Date createdAt;
 
 
     public Product getProduct(){
         Product product = new Product();
         Category c = new Category();
-        c.setName(category);
+        c.setTitle(category);
         product.setId(id);
         product.setTitle(title);
         product.setCategory(c);
